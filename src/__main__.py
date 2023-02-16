@@ -1,21 +1,56 @@
 from utils.arguments import get_arguments
 from utils.files_utils import read_file
 from interpreter.parser import parser
+from environment.module import MODULE
+from threading import Thread
 
-declaration = []
+types = {}
+
+modules = {}
+
+strings = {}
+
+instructions = []
+
+class MODULE_EXEC:
+  def __init__(self, instructions = []) -> None:
+    self.module = MODULE()
+    self.step = 0
+    self.instructions = instructions
+    
+  def execute_instruction(self):
+
+    self.step += 1
+
+
+def set_decalration(inst):
+  print(inst)
+  match inst[0]:
+    case 'STRING':
+      strings[inst[1]] = inst[2]
+      types[inst[1]] = 'STRING'
+    case 'MODULE':
+
+      types[inst[1]] = 'MODULE'
+  pass
+
+def declare():
+  global instructions
+  for instruct in instructions:
+    set_decalration(instruct)
+
+
 
 def main():
-  global declaration
+  global instructions
   args = get_arguments()
   file = args[0]
   content = read_file(file)
   for i in range(0, len(content)):
     result = parser.parse(content[i])
     if (result != None):
-      declaration.append(result)
-    print(i)
-  print(declaration)
-  pass
+      instructions.append(result)
+  declare()
 
 if __name__ == '__main__':
   main()

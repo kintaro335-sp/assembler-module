@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'ACC ADD END_INST EQUALS IN JEZ JGZ JLZ JMP JNZ LABEL MEM MODULE MOD_BEGIN MOD_END MOV NAME NAME_ALT NEG NUMBER OUT OUTP SAV STRING SUB SWPsentence : MODULE NAME MOD_BEGINsentence : MOD_ENDsentence : STRING NAME EQUALS NAME_ALT END_INSTsentence : '
+_lr_signature = 'ACC ADD END_INST EQUALS IN IN_USER JEZ JGZ JLZ JMP JNZ LABEL MEM MODULE MOD_BEGIN MOD_END MOV NAME NAME_ALT NEG NUMBER OUT OUT_SCREEN SAV STRING SUB SWPsentence : LABELsentence : SWPsentence : SUB NUMBER END_INSTsentence : ADD NUMBER END_INSTsentence : MOV ACC NAME END_INSTsentence : MOV NUMBER ACC END_INSTsentence : MOV IN ACC END_INSTsentence : MOV ACC OUT END_INSTsentence : JNZ NAME END_INSTsentence : JEZ NAME END_INSTsentence : MODULE NAME MOD_BEGINsentence : MOD_ENDsentence : STRING NAME EQUALS NAME_ALT END_INSTsentence : '
     
-_lr_action_items = {'MODULE':([0,],[2,]),'MOD_END':([0,],[3,]),'STRING':([0,],[4,]),'$end':([0,1,3,7,10,],[-4,0,-2,-1,-3,]),'NAME':([2,4,],[5,6,]),'MOD_BEGIN':([5,],[7,]),'EQUALS':([6,],[8,]),'NAME_ALT':([8,],[9,]),'END_INST':([9,],[10,]),}
+_lr_action_items = {'LABEL':([0,],[2,]),'SWP':([0,],[3,]),'SUB':([0,],[4,]),'ADD':([0,],[5,]),'MOV':([0,],[6,]),'JNZ':([0,],[7,]),'JEZ':([0,],[8,]),'MODULE':([0,],[9,]),'MOD_END':([0,],[10,]),'STRING':([0,],[11,]),'$end':([0,1,2,3,10,21,22,27,28,29,31,32,33,34,36,],[-14,0,-1,-2,-12,-3,-4,-9,-10,-11,-5,-8,-6,-7,-13,]),'NUMBER':([4,5,6,],[12,13,15,]),'ACC':([6,15,16,],[14,25,26,]),'IN':([6,],[16,]),'NAME':([7,8,9,11,14,],[17,18,19,20,23,]),'END_INST':([12,13,17,18,23,24,25,26,35,],[21,22,27,28,31,32,33,34,36,]),'OUT':([14,],[24,]),'MOD_BEGIN':([19,],[29,]),'EQUALS':([20,],[30,]),'NAME_ALT':([30,],[35,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -27,8 +27,18 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> sentence","S'",1,None,None,None),
-  ('sentence -> MODULE NAME MOD_BEGIN','sentence',3,'p_new_module','parser.py',8),
-  ('sentence -> MOD_END','sentence',1,'p_end_module','parser.py',14),
-  ('sentence -> STRING NAME EQUALS NAME_ALT END_INST','sentence',5,'p_string_declaration','parser.py',20),
-  ('sentence -> <empty>','sentence',0,'p_vacio','parser.py',24),
+  ('sentence -> LABEL','sentence',1,'p_inst_label','parser.py',7),
+  ('sentence -> SWP','sentence',1,'p_inst_swp','parser.py',11),
+  ('sentence -> SUB NUMBER END_INST','sentence',3,'p_inst_sub_num','parser.py',15),
+  ('sentence -> ADD NUMBER END_INST','sentence',3,'p_inst_add_num','parser.py',19),
+  ('sentence -> MOV ACC NAME END_INST','sentence',4,'p_inst_mov_acc_name','parser.py',23),
+  ('sentence -> MOV NUMBER ACC END_INST','sentence',4,'p_inst_mov_num_acc','parser.py',27),
+  ('sentence -> MOV IN ACC END_INST','sentence',4,'p_inst_mov_in_acc','parser.py',31),
+  ('sentence -> MOV ACC OUT END_INST','sentence',4,'p_inst_mov_acc_out','parser.py',36),
+  ('sentence -> JNZ NAME END_INST','sentence',3,'p_inst_jnz','parser.py',40),
+  ('sentence -> JEZ NAME END_INST','sentence',3,'p_inst_jez','parser.py',44),
+  ('sentence -> MODULE NAME MOD_BEGIN','sentence',3,'p_new_module','parser.py',48),
+  ('sentence -> MOD_END','sentence',1,'p_end_module','parser.py',58),
+  ('sentence -> STRING NAME EQUALS NAME_ALT END_INST','sentence',5,'p_string_declaration','parser.py',64),
+  ('sentence -> <empty>','sentence',0,'p_vacio','parser.py',68),
 ]

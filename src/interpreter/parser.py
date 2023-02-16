@@ -1,26 +1,53 @@
 import ply.yacc as yacc
-
 from interpreter.lexer_asmm import tokens
 
 current_module = None
 
-start = 'start'
+def p_inst_label(p):
+  'sentence : LABEL'
+  p[0] = ('LABEL', p[1])
 
-def p_start(p):
-  'start :'
+def p_inst_swp(p):
+  'sentence : SWP'
+  p[0] = ('SWP')
+
+def p_inst_sub_num(p):
+  'sentence : SUB NUMBER END_INST'
+  p[0] = ('ADD', p[1])
+
+def p_inst_add_num(p):
+  'sentence : ADD NUMBER END_INST'
+  p[0] = ('ADD', p[1])
 
 def p_inst_mov_acc_name(p):
-  'sentence : MOV ACC NAME'
+  'sentence : MOV ACC NAME END_INST'
   p[0] = (p[1], p[2], p[3])
 
 def p_inst_mov_num_acc(p):
-  'sentence : MOV NUMBER ACC;'
+  'sentence : MOV NUMBER ACC END_INST'
   p[0] = (p[1], p[2], p[3])
+
+def p_inst_mov_in_acc(p):
+  'sentence : MOV IN ACC END_INST'
+  p[0] = (p[1], p[2], p[3])
+  
+
+def p_inst_mov_acc_out(p):
+  'sentence : MOV ACC OUT END_INST'
+  p[0] = ('MOV', 'ACC', 'OUT')
+
+def p_inst_jnz(p):
+  'sentence : JNZ NAME END_INST'
+  p[0] = ('JNZ', p[2])
+
+def p_inst_jez(p):
+  'sentence : JEZ NAME END_INST'
+  p[0] = ('JEZ', p[2])
 
 def p_new_module(p):
   'sentence : MODULE NAME MOD_BEGIN'
   global current_module
-  if(current_module != None):
+  if(current_module == None):
     current_module = p[2]
     p[0] = ('MODULE', 'BEGIN', p[2])
   else:
@@ -46,6 +73,7 @@ def p_error(p):
   print("Syntax error in line: %s" % p.lineno)
   print("token %s" % p.type)
   print("value "+ p.value)
+  exit(1)
 
 
 

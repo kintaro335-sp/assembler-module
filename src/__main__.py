@@ -2,15 +2,19 @@ from utils.arguments import get_arguments
 from utils.files_utils import read_file
 from interpreter.parser import parser
 
+declaration = []
+
 def main():
-  global line_num
+  global declaration
   args = get_arguments()
   file = args[0]
   content = read_file(file)
-  print('result')
-  
-  result = parser.parse(content)
-  print(result)
+  for i in range(0, len(content)):
+    result = parser.parse(content[i])
+    if (result != None):
+      declaration.append(result)
+    print(i)
+  print(declaration)
   pass
 
 if __name__ == '__main__':

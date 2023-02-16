@@ -69,6 +69,8 @@ t_MEM = r'MEM'
 
 t_MODULE = r'MODULE'
 
+t_IN = r'IN'
+
 t_MOD_BEGIN = r'{'
 
 t_MOD_END = r'}'

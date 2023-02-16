@@ -1,0 +1,10 @@
+STRING saludo = "hola a todos";
+
+STRING primer_mensaje = "inserta un numero";
+
+MODULE main {
+  MOV main ACC; 
+}
+
+
+

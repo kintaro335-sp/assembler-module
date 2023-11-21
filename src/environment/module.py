@@ -1,12 +1,9 @@
-from threading import Thread
-
 class MODULE():
-  def __init__(self, name:str, instructions = []) -> None:
+  def __init__(self, instructions = []) -> None:
     self.acc = 0
     self.bak = 0
     self.inst = 0
     self.instructions = instructions
-    self.thr = Thread(target=self.execute_module, name=name)
     pass
 
   def add(self, number:int):
@@ -23,13 +20,7 @@ class MODULE():
     self.acc = self.bak
     self.bak = aux
 
-  def execute_module(self):
-    while True:
-      self.next_instruction()
-
   def next_instruction(self):
-    
-
     self.inst += 1
     if(self.inst > len(self.instructions)):
       self.inst = 0

@@ -34,4 +34,13 @@ class MODULE_CORE:
 class MODULE_CONTROLLER(MODULE_CORE):
   def __init__(self, instructions = []):
     super().__init__()
+    self.instructions = instructions
+    self.step = 0
+    self.labels = {}
+
+    for i in range(0, len(self.instructions)):
+      if self.instructions[i][0] == 'LABEL':
+        self.labels[self.instructions[i][1]] = i
+
+
   # TODO: add instrction loader and the executer

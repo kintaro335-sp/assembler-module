@@ -1,9 +1,8 @@
-class MODULE():
-  def __init__(self, instructions = []) -> None:
+class MODULE_CORE:
+  def __init__(self) -> None:
     self.acc = 0
     self.bak = 0
-    self.inst = 0
-    self.instructions = instructions
+    self.out = None
     pass
 
   def add(self, number:int):
@@ -15,12 +14,24 @@ class MODULE():
   def sav(self):
     self.bak = self.acc
 
+  def get_acc(self):
+    return self.acc
+
+  def set_acc(self, new_acc_value: int):
+    self.acc = new_acc_value
+
+  def set_out(self, new_out: int):
+    self.out = new_out
+
+  def get_out(self):
+    return self.out
+
   def swp(self):
     aux = self.acc
     self.acc = self.bak
     self.bak = aux
 
-  def next_instruction(self):
-    self.inst += 1
-    if(self.inst > len(self.instructions)):
-      self.inst = 0
+class MODULE_CONTROLLER(MODULE_CORE):
+  def __init__(self, instructions = []):
+    super().__init__()
+  # TODO: add instrction loader and the executer

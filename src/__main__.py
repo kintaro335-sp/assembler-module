@@ -1,3 +1,4 @@
+import os
 from utils.arguments import get_arguments
 from utils.files_utils import read_file
 from interpreter.parser import parser
@@ -48,15 +49,17 @@ instructions = []
 #   pass
 
 def execute():
-  global machine  
-  pass
+  global machine
+  try:
+    while(True):
+      machine.execute_instructions()
+      machine.next_tick()
+  except KeyboardInterrupt:
+    os._exit(0)
 
 def declare():
   global instructions, machine
   machine = Machine(instructions)
-  # for instruct in instructions:
-    # print(instruct)
-    # set_decalration(instruct)
 
 def get_instructions(content: list[str]):
   global instructions
@@ -71,6 +74,7 @@ def main():
   content = read_file(file)
   get_instructions(content)
   declare()
+  execute()
 
 if __name__ == '__main__':
   main()

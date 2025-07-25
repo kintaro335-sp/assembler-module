@@ -79,7 +79,7 @@ t_MOV = r'MOV'
 
 t_OUT_SCREEN = r'OUTP'
 
-t_OUT = r'OUT'
+t_OUT = r'OUT' 
 
 t_SUB = r'SUB'
 

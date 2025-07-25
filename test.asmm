@@ -3,8 +3,9 @@ STRING saludo = "hola a todos";
 STRING primer_mensaje = "inserta un numero";
 
 MODULE main {
-  MOV IN ACC;
-  MOV ACC OUT;
+  MOV INU ACC;
+  ADD ACC;
+  MOV ACC OUTP;
 }
 
 

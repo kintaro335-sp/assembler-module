@@ -42,5 +42,14 @@ class Machine:
           self.mem_stacks[inst[1]] = MEM_STACK()
 
     
+  def execute_instructions(self):
+    modules_keys = self.modules.keys()
+    for key in modules_keys:
+      self.modules[key].execute_instruction()
 
+  def next_tick(self):
+    self.ticks += 1
+    modules_keys = self.modules.keys()
+    for key in modules_keys:
+      self.modules[key].next_instruction()
 

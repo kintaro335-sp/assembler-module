@@ -3,10 +3,12 @@ STRING saludo = "hola a todos";
 STRING primer_mensaje = "inserta un numero";
 
 MODULE main {
-  MOV INU ACC;
-  ADD ACC;
+  ADD 1;
   MOV ACC OUTP;
 }
 
-
+MODULE dos {
+  SUB 1;
+  MOV ACC OUTP;
+}
 

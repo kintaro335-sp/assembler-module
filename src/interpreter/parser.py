@@ -13,7 +13,7 @@ def p_inst_swp(p):
 
 def p_inst_sub_num(p):
   'sentence : SUB NUMBER END_INST'
-  p[0] = ('SUB', p[1])
+  p[0] = ('SUB', p[2])
 
 def p_inst_sub_acc(p):
   'sentence : SUB ACC END_INST'
@@ -21,7 +21,7 @@ def p_inst_sub_acc(p):
 
 def p_inst_add_num(p):
   'sentence : ADD NUMBER END_INST'
-  p[0] = ('ADD', p[1])
+  p[0] = ('ADD', p[2])
 
 def p_inst_add_acc(p):
   'sentence : ADD ACC END_INST'

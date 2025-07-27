@@ -3,6 +3,7 @@ from utils.arguments import get_arguments
 from utils.files_utils import read_file
 from interpreter.parser import parser
 from environment import Machine
+import time
 
 machine = Machine()
 
@@ -54,11 +55,13 @@ def execute():
     while(True):
       machine.execute_instructions()
       machine.next_tick()
+      time.sleep(1)
   except KeyboardInterrupt:
     os._exit(0)
 
 def declare():
   global instructions, machine
+  print(instructions)
   machine = Machine(instructions)
 
 def get_instructions(content: list[str]):

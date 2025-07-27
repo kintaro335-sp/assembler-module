@@ -1,3 +1,5 @@
+from copy import copy
+
 class MODULE_CORE:
   def __init__(self) -> None:
     self.acc = 0
@@ -22,11 +24,35 @@ class MODULE_CORE:
   def set_acc(self, new_acc_value: int):
     self.acc = new_acc_value
 
+  def get_inp(self) -> int:
+    return self.inp
+
+  def set_inp(self, new_input: int) -> bool:
+    inserted = False
+    if self.inp == None:
+      inserted = True
+      self.inp = new_input
+    return inserted
+
+  def retrieve_inp(self):
+    inp = copy(self.inp)
+    if self.inp != None:
+      self.next_inst = True
+      self.inp = None
+    return inp
+# TODO: pausar la ejecucion del modulo cuando se intenta poner un numero al out y ya hay un numero en el
   def set_out(self, new_out: int):
+    self.next_inst = False
     self.out = new_out
 
   def get_out(self):
-    return self.out
+    out = copy(self.out)
+
+    if out != None:
+      self.next_inst = True
+      self.inp = None
+
+    return out
 
   def swp(self):
     aux = self.acc
@@ -44,6 +70,9 @@ class MODULE_CONTROLLER(MODULE_CORE):
       if self.instructions[i][0] == 'LABEL':
         self.labels[self.instructions[i][1]] = i
 
+  def get_current_instruction(self) -> tuple:
+    return self.instructions[self.step]
+
   def next_instruction(self):
     if not self.next_inst:
       return
@@ -59,7 +88,7 @@ class MODULE_CONTROLLER(MODULE_CORE):
     # get source
     match inst_p2:
       case 'INU':
-        src = int(input())
+        src = int(input('input:'))
       case 'ACC':
         src = self.acc
       case _:
@@ -77,6 +106,7 @@ class MODULE_CONTROLLER(MODULE_CORE):
 
   def __add_instruction(self, instruction: tuple):
     inst_p2 = instruction[1]
+    print(instruction)
 
     match inst_p2:
       case 'ACC':
@@ -84,7 +114,14 @@ class MODULE_CONTROLLER(MODULE_CORE):
       case _:
         self.acc += int(inst_p2)
 
-    
+  def __sub_instruction(self, instruction: tuple):
+    inst_p2 = instruction[1]
+
+    match inst_p2:
+      case 'ACC':
+        self.acc -= self.acc
+      case _:
+        self.acc -= int(inst_p2)
 
   def execute_instruction(self):
     inst = self.instructions[self.step]
@@ -95,3 +132,6 @@ class MODULE_CONTROLLER(MODULE_CORE):
         self.__mov_instruction(inst)
       case 'ADD':
         self.__add_instruction(inst)
+      case 'SUB':
+        self.__sub_instruction(inst)
+

@@ -6,8 +6,6 @@ class MODULE_CORE:
     self.bak = 0
     self.next_inst = True
     self.inp = None
-    self.out = None
-    pass
 
   def add(self, number:int):
     self.acc += number
@@ -24,7 +22,7 @@ class MODULE_CORE:
   def set_acc(self, new_acc_value: int):
     self.acc = new_acc_value
 
-  def get_inp(self) -> int:
+  def get_inp(self) -> int | None:
     return self.inp
 
   def set_inp(self, new_input: int) -> bool:
@@ -40,19 +38,6 @@ class MODULE_CORE:
       self.next_inst = True
       self.inp = None
     return inp
-# TODO: pausar la ejecucion del modulo cuando se intenta poner un numero al out y ya hay un numero en el
-  def set_out(self, new_out: int):
-    self.next_inst = False
-    self.out = new_out
-
-  def get_out(self):
-    out = copy(self.out)
-
-    if out != None:
-      self.next_inst = True
-      self.inp = None
-
-    return out
 
   def swp(self):
     aux = self.acc
@@ -80,6 +65,9 @@ class MODULE_CONTROLLER(MODULE_CORE):
     if self.step > len(self.instructions) - 1:
       self.step = 0
 
+  def pause(self):
+    self.next_inst = False
+
   def __mov_instruction(self, instruction: tuple):
     print(instruction)
     inst_p2 = instruction[1]
@@ -91,6 +79,13 @@ class MODULE_CONTROLLER(MODULE_CORE):
         src = int(input('input:'))
       case 'ACC':
         src = self.acc
+      case 'IN':
+        src = self.get_inp()
+        if src == None:
+          self.next_inst = False
+          return
+        else:
+          src = self.retrieve_inp()
       case _:
         src = inst_p2
     

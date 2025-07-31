@@ -44,11 +44,31 @@ class Machine:
         case 'MEM':
           self.mem_stacks[inst[1]] = MEM_STACK()
 
+  def send_value_to_module(self, origin: str, destination: str):
+    inp_dest = self.modules[destination].get_inp()
+    if inp_dest == None:
+      mov_ints_origin = self.modules[origin].get_current_instruction()
+      src_mov_inst = mov_ints_origin[1]
+      src = 0
+      match src_mov_inst:
+        case 'ACC':
+          src = self.modules[origin].get_acc()
+        case _:
+          src = src_mov_inst
+      self.modules[destination].set_inp(src)
+    else:
+      self.modules[origin].pause()
     
   def execute_instructions(self):
     modules_keys = self.modules.keys()
-    print(modules_keys)
     for key in modules_keys:
+      current_instruction = self.modules[key].get_current_instruction()
+      inst_p1 = current_instruction[0]
+      if inst_p1 == 'MOV':
+        inst_p3 = current_instruction[2]
+        module_dest = self.modules.get(inst_p3)
+        if module_dest != None:
+          self.send_value_to_module(key, inst_p3)
       self.modules[key].execute_instruction()
 
   def next_tick(self):

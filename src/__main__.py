@@ -61,7 +61,6 @@ def execute():
 
 def declare():
   global instructions, machine
-  print(instructions)
   machine = Machine(instructions)
 
 def get_instructions(content: list[str]):

@@ -1,3 +1,4 @@
+import os
 from copy import copy
 
 class MODULE_CORE:
@@ -69,7 +70,6 @@ class MODULE_CONTROLLER(MODULE_CORE):
     self.next_inst = False
 
   def __mov_instruction(self, instruction: tuple):
-    print(instruction)
     inst_p2 = instruction[1]
     inst_p3 = instruction[2]
     src = 0
@@ -105,22 +105,47 @@ class MODULE_CONTROLLER(MODULE_CORE):
 
     match inst_p2:
       case 'ACC':
-        self.acc += self.acc
+        self.add(self.acc)
       case _:
-        self.acc += int(inst_p2)
+        self.add(int(inst_p2))
 
   def __sub_instruction(self, instruction: tuple):
     inst_p2 = instruction[1]
 
     match inst_p2:
       case 'ACC':
-        self.acc -= self.acc
+        self.sub(self.acc)
       case _:
-        self.acc -= int(inst_p2)
+        self.sub(int(inst_p2))
+
+  def __jez_instruction(self, inst: tuple):
+    inst_p2 = inst[1]
+    if self.acc == 0:
+      self.step = self.labels[f"{inst_p2}:"]
+
+  def __jnz_instruction(self, inst: tuple):
+    inst_p2 = inst[1]
+    if self.acc != 0:
+      self.step = self.labels[f"{inst_p2}:"]
+
+  def __jgz_instruction(self, inst: tuple):
+    inst_p2 = inst[1]
+    if self.acc > 0:
+      self.step = self.labels[f"{inst_p2}:"]
+
+  def __jlz_instruction(self, inst: tuple):
+    inst_p2 = inst[1]
+    if self.acc < 0:
+      self.step = self.labels[f"{inst_p2}:"]
+
+  def __jmp_instruction(self, inst: tuple):
+    inst_p2 = inst[1]
+    self.step = self.labels[f"{inst_p2}:"]
 
   def execute_instruction(self):
+    print(f"step:{self.step}")
     inst = self.instructions[self.step]
-
+    print(inst)
     inst_p1 = inst[0]
     match inst_p1:
       case 'MOV':
@@ -129,4 +154,22 @@ class MODULE_CONTROLLER(MODULE_CORE):
         self.__add_instruction(inst)
       case 'SUB':
         self.__sub_instruction(inst)
+      case 'JEZ':
+        self.__jez_instruction(inst)
+      case 'JNZ':
+        self.__jnz_instruction(inst)
+      case 'JMP':
+        self.__jmp_instruction(inst)
+      case 'JGZ':
+        self.__jgz_instruction(inst)
+      case 'JLZ':
+        self.__jlz_instruction(inst)
+      case 'SAV':
+        self.sav()
+      case 'SWP':
+        self.swp()
+      case 'LABEL':
+        pass
+      case 'HALT':
+        os._exit(0)
 

@@ -29,7 +29,8 @@ tokens = (
   'MOD_END',
   'NAME_ALT',
   'EQUALS',
-  'END_INST'
+  'END_INST',
+  'HALT'
 )
 
 t_EQUALS = r'='
@@ -39,6 +40,8 @@ t_END_INST = r';'
 t_IN_USER = r'INU'
 
 t_ignore = ' \t'
+
+t_HALT = r'HALT'
 
 def t_NAME_ALT(t):
   r'"[a-zA-Z0-9_\s]+"'
@@ -88,6 +91,16 @@ t_SWP = r'SPW'
 t_SAV = r'SAV'
 
 t_STRING = r'STRING'
+
+t_JNZ = r'JNZ'
+
+t_JEZ = r'JEZ'
+
+t_JGZ = r'JGZ'
+
+t_JLZ = r'JLZ'
+
+t_JMP = r'JMP'
 
 def t_newline(t):
   r'\n'

@@ -1,0 +1,11 @@
+
+MODULE main {
+    MOV INU ACC;
+    JEZ cero;
+    loop:
+    MOV ACC OUTP;
+    JMP loop;
+    cero:
+    MOV ACC OUTP;
+    HALT;
+}

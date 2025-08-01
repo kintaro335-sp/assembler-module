@@ -9,53 +9,13 @@ machine = Machine()
 
 instructions = []
 
-# class MODULE_EXEC:
-#   def __init__(self, instructions = []) -> None:
-#     self.module = MODULE()
-#     self.step = 0
-#     self.instructions = instructions
-    
-#   def execute_instruction(self):
-#     pass
-
-# def set_decalration(inst):
-#   global aux_instructions
-#   print(inst)
-#   match inst[0]:
-#     case 'STRING':
-#       strings[inst[1]] = inst[2]
-#       types[inst[1]] = 'STRING'
-#     case 'MODULE':
-#       types[inst[1]] = 'MODULE'
-
-#     case 'MOV':
-#       aux_instructions.append(inst)
-#     case 'SUB':
-#       aux_instructions.append(inst)
-#     case 'ADD':
-#       aux_instructions.append(inst)
-#     case 'JEZ':
-#       aux_instructions.append(inst)
-#     case 'JNZ':
-#       aux_instructions.append(inst)
-#     case 'JGZ':
-#       aux_instructions.append(inst)
-#     case 'JLZ':
-#       aux_instructions.append(inst)
-#     case 'JMP':
-#       aux_instructions.append(inst)
-#     case 'LABEL':
-#       aux_instructions.append(inst)
-      
-#   pass
-
 def execute():
   global machine
   try:
     while(True):
       machine.execute_instructions()
       machine.next_tick()
-      time.sleep(1)
+      time.sleep(0.1)
   except KeyboardInterrupt:
     os._exit(0)
 

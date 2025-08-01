@@ -8,8 +8,12 @@ def p_inst_label(p):
   p[0] = ('LABEL', p[1])
 
 def p_inst_swp(p):
-  'sentence : SWP'
-  p[0] = ('SWP')
+  'sentence : SWP END_INST'
+  p[0] = ('SWP', '')
+
+def p_inst_sav(p):
+  'sentence : SAV END_INST'
+  p[0] = ('SAV', '')
 
 def p_inst_sub_num(p):
   'sentence : SUB NUMBER END_INST'
@@ -59,6 +63,10 @@ def p_inst_jez(p):
   'sentence : JEZ NAME END_INST'
   p[0] = ('JEZ', p[2])
 
+def p_inst_jmp(p):
+  'sentence : JMP NAME END_INST'
+  p[0] = ('JMP', p[2])
+
 def p_new_module(p):
   'sentence : MODULE NAME MOD_BEGIN'
   global current_module
@@ -78,6 +86,10 @@ def p_end_module(p):
 def p_string_declaration(p):
   'sentence : STRING NAME EQUALS NAME_ALT END_INST'
   p[0] = ("STRING",p[2], p[4])
+
+def p_halt(p):
+  'sentence : HALT END_INST'
+  p[0] = ("HALT", "")
 
 def p_vacio(p):
   'sentence : '

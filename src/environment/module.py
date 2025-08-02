@@ -76,7 +76,7 @@ class MODULE_CONTROLLER(MODULE_CORE):
     # get source
     match inst_p2:
       case 'INU':
-        src = int(input('input:'))
+        src = self.__input()
       case 'ACC':
         src = self.acc
       case 'IN':
@@ -106,6 +106,11 @@ class MODULE_CONTROLLER(MODULE_CORE):
     match inst_p2:
       case 'ACC':
         self.add(self.acc)
+      case 'IN':
+        if self.get_inp() != None:
+          self.add(self.retrieve_inp())
+        else:
+          self.pause()
       case _:
         self.add(int(inst_p2))
 
@@ -115,6 +120,11 @@ class MODULE_CONTROLLER(MODULE_CORE):
     match inst_p2:
       case 'ACC':
         self.sub(self.acc)
+      case 'IN':
+        if self.get_inp() != None:
+          self.add(self.retrieve_inp())
+        else:
+          self.pause()
       case _:
         self.sub(int(inst_p2))
 
@@ -141,6 +151,14 @@ class MODULE_CONTROLLER(MODULE_CORE):
   def __jmp_instruction(self, inst: tuple):
     inst_p2 = inst[1]
     self.step = self.labels[f"{inst_p2}:"]
+
+  def __input(self) -> int:
+    while (True):
+      try:
+        return int(input('input:'))
+      except ValueError:
+        print('invalid input')
+
 
   def execute_instruction(self):
     print(f"step:{self.step}")

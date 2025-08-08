@@ -80,7 +80,7 @@ class MODULE_CONTROLLER(MODULE_CORE):
         src = self.__input()
       case 'ACC':
         src = self.acc
-      case r'[a-z]+':
+      case r'[a-z_]+':
         src = self.get_inp(inst_p2)
         if src == None:
           self.next_inst = False
@@ -107,9 +107,9 @@ class MODULE_CONTROLLER(MODULE_CORE):
     match inst_p2:
       case 'ACC':
         self.add(self.acc)
-      case 'IN':
+      case r'[a-z_]+':
         if self.get_inp() != None:
-          self.add(self.retrieve_inp())
+          self.add(self.retrieve_inp(inst_p2))
         else:
           self.pause()
       case _:
@@ -121,9 +121,9 @@ class MODULE_CONTROLLER(MODULE_CORE):
     match inst_p2:
       case 'ACC':
         self.sub(self.acc)
-      case r'[a-z]+':
+      case r'[a-z_]+':
         if self.get_inp() != None:
-          self.add(self.retrieve_inp())
+          self.add(self.retrieve_inp(inst_p2))
         else:
           self.pause()
       case _:

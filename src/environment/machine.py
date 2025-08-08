@@ -7,6 +7,7 @@ from .mem_stack import MEM_STACK
 class Machine:
   modules: dict[str, MODULE_CONTROLLER] = {}
   mem_stacks: dict[str, MEM_STACK] = {}
+  types: dict[str, str]
   strings: dict[str, str] = {}
   ticks: int = 0
 
@@ -16,6 +17,7 @@ class Machine:
     self.strings = {}
     self.mem_stacks = {}
     self.modules = {}
+    self.types = {}
     self.__initialize()
 
   def __initialize_module(self, name: str, start_module: int, end_module: int):
@@ -35,6 +37,7 @@ class Machine:
         case 'MODULE':
           if inst[1] == 'BEGIN':
             module_name = inst[2]
+            self.types[module_name] = 'MODULE'
             end_inst = copy(i)
             while self.instructions[end_inst][1] != 'END':
               end_inst += 1
@@ -43,6 +46,7 @@ class Machine:
             print(f'module end declaration:{module_name}')
         case 'MEM':
           self.mem_stacks[inst[1]] = MEM_STACK()
+          self.types[inst[1]] = 'MEM'
 
   def send_value_to_module(self, origin: str, destination: str):
     inp_dest = self.modules[destination].get_inp(origin)
@@ -66,7 +70,7 @@ class Machine:
       inst_p1 = current_instruction[0]
       if inst_p1 == 'MOV':
         inst_p3 = current_instruction[2]
-        module_dest = self.modules.get(inst_p3)
+        module_dest = self.types.get(inst_p3)
         if module_dest != None:
           self.send_value_to_module(key, inst_p3)
       self.modules[key].execute_instruction()

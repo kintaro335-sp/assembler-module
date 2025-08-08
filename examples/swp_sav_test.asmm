@@ -1,0 +1,14 @@
+
+
+MODULE main {
+    MOV INU ACC;
+    SWP;
+    MOV ACC OUTP;
+    SWP;
+    SAV;
+    SWP;
+    MOV ACC OUTP;
+    SWP;
+    MOV ACC OUTP;
+    HALT;
+}

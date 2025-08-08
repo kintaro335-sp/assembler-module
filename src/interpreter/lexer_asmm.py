@@ -86,7 +86,7 @@ t_OUT = r'OUT'
 
 t_SUB = r'SUB'
 
-t_SWP = r'SPW'
+t_SWP = r'SWP'
 
 t_SAV = r'SAV'
 

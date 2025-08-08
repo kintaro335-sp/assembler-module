@@ -48,9 +48,9 @@ def p_inst_mov_num_acc(p):
   p[0] = (p[1], p[2], p[3])
 
 def p_inst_mov_in_acc(p):
-  'sentence : MOV IN ACC END_INST'
+  'sentence : MOV NAME ACC END_INST'
   p[0] = (p[1], p[2], p[3])
-  
+
 def p_inst_mov_inu_acc(p):
   'sentence : MOV IN_USER ACC END_INST'
   p[0] = (p[1], p[2], p[3])

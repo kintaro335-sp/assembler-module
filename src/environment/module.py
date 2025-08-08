@@ -2,11 +2,12 @@ import os
 from copy import copy
 
 class MODULE_CORE:
+  inp: dict[str, int]
   def __init__(self) -> None:
     self.acc = 0
     self.bak = 0
     self.next_inst = True
-    self.inp = None
+    self.inp = {}
 
   def add(self, number:int):
     self.acc += number
@@ -23,21 +24,21 @@ class MODULE_CORE:
   def set_acc(self, new_acc_value: int):
     self.acc = new_acc_value
 
-  def get_inp(self) -> int | None:
-    return self.inp
+  def get_inp(self, sender: str) -> int | None:
+    return self.inp.get(sender)
 
-  def set_inp(self, new_input: int) -> bool:
+  def set_inp(self, sender: str, new_input: int) -> bool:
     inserted = False
-    if self.inp == None:
+    if self.inp.get(sender) == None:
       inserted = True
-      self.inp = new_input
+      self.inp[sender] = new_input
     return inserted
 
-  def retrieve_inp(self):
-    inp = copy(self.inp)
-    if self.inp != None:
+  def retrieve_inp(self, sender: str):
+    inp = copy(self.inp.get(sender))
+    if self.inp.get(sender) != None:
       self.next_inst = True
-      self.inp = None
+      del self.inp[sender]
     return inp
 
   def swp(self):
@@ -79,13 +80,13 @@ class MODULE_CONTROLLER(MODULE_CORE):
         src = self.__input()
       case 'ACC':
         src = self.acc
-      case 'IN':
-        src = self.get_inp()
+      case r'[a-z]+':
+        src = self.get_inp(inst_p2)
         if src == None:
           self.next_inst = False
           return
         else:
-          src = self.retrieve_inp()
+          src = self.retrieve_inp(inst_p2)
       case _:
         src = inst_p2
     
@@ -120,7 +121,7 @@ class MODULE_CONTROLLER(MODULE_CORE):
     match inst_p2:
       case 'ACC':
         self.sub(self.acc)
-      case 'IN':
+      case r'[a-z]+':
         if self.get_inp() != None:
           self.add(self.retrieve_inp())
         else:

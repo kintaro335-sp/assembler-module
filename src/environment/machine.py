@@ -45,7 +45,7 @@ class Machine:
           self.mem_stacks[inst[1]] = MEM_STACK()
 
   def send_value_to_module(self, origin: str, destination: str):
-    inp_dest = self.modules[destination].get_inp()
+    inp_dest = self.modules[destination].get_inp(origin)
     if inp_dest == None:
       mov_ints_origin = self.modules[origin].get_current_instruction()
       src_mov_inst = mov_ints_origin[1]
@@ -55,7 +55,7 @@ class Machine:
           src = self.modules[origin].get_acc()
         case _:
           src = src_mov_inst
-      self.modules[destination].set_inp(src)
+      self.modules[destination].set_inp(origin, src)
     else:
       self.modules[origin].pause()
     

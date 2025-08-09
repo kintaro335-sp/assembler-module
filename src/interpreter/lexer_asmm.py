@@ -18,8 +18,6 @@ tokens = (
   'MODULE',
   'MOV',
   'OUT_SCREEN',
-  'OUT',
-  'IN',
   'IN_USER',
   'SUB',
   'STRING',
@@ -72,8 +70,6 @@ t_MEM = r'MEM'
 
 t_MODULE = r'MODULE'
 
-t_IN = r'IN'
-
 t_MOD_BEGIN = r'{'
 
 t_MOD_END = r'}'
@@ -81,8 +77,6 @@ t_MOD_END = r'}'
 t_MOV = r'MOV'
 
 t_OUT_SCREEN = r'OUTP'
-
-t_OUT = r'OUT' 
 
 t_SUB = r'SUB'
 

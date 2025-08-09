@@ -55,10 +55,6 @@ def p_inst_mov_inu_acc(p):
   'sentence : MOV IN_USER ACC END_INST'
   p[0] = (p[1], p[2], p[3])
 
-def p_inst_mov_acc_out(p):
-  'sentence : MOV ACC OUT END_INST'
-  p[0] = ('MOV', 'ACC', 'OUT')
-
 def p_inst_mov_acc_outp(p):
   'sentence : MOV ACC OUT_SCREEN END_INST'
   p[0] = ('MOV', 'ACC', 'OUTP')

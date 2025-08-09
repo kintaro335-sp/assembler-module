@@ -4,12 +4,12 @@ STRING primer_mensaje = "inserta un numero";
 
 MODULE main {
   MOV ACC dos;
-  MOV IN ACC;
+  MOV dos ACC;
   MOV ACC OUTP;
 }
 
 MODULE dos {
-  MOV IN ACC;
+  MOV main ACC;
   ADD 1;
   MOV ACC main;
 }

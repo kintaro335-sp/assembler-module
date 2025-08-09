@@ -1,4 +1,5 @@
-from typing import Tuple
+import os
+from typing import Tuple, Literal
 from copy import copy
 from .module import MODULE_CONTROLLER
 from .mem_stack import MEM_STACK
@@ -7,7 +8,7 @@ from .mem_stack import MEM_STACK
 class Machine:
   modules: dict[str, MODULE_CONTROLLER] = {}
   mem_stacks: dict[str, MEM_STACK] = {}
-  types: dict[str, str]
+  types: dict[str, Literal['MODULE', 'MEM']]
   strings: dict[str, str] = {}
   ticks: int = 0
 
@@ -28,6 +29,14 @@ class Machine:
       i += 1
     self.modules[name] = MODULE_CONTROLLER(instrections_module)
 
+  def __define_type(self, name: str, type_e: Literal['MODULE', 'MEM']):
+    type_name = self.types.get(name)
+    if type_name == None:
+      self.types[name] = type_e
+    else:
+      print('Error: names duplicated')
+      os._exit(1)
+
   def __initialize(self):
 
     for i, inst in enumerate(self.instructions):
@@ -37,7 +46,7 @@ class Machine:
         case 'MODULE':
           if inst[1] == 'BEGIN':
             module_name = inst[2]
-            self.types[module_name] = 'MODULE'
+            self.__define_type(module_name, 'MODULE')
             end_inst = copy(i)
             while self.instructions[end_inst][1] != 'END':
               end_inst += 1
@@ -46,9 +55,20 @@ class Machine:
             print(f'module end declaration:{module_name}')
         case 'MEM':
           self.mem_stacks[inst[1]] = MEM_STACK()
-          self.types[inst[1]] = 'MEM'
+          self.__define_type(inst[1], 'MEM')
 
-  def send_value_to_module(self, origin: str, destination: str):
+  def __send_value_to_mem_stack(self, origin: str, destination: str):
+      mov_ints_origin = self.modules[origin].get_current_instruction()
+      src_mov_inst = mov_ints_origin[1]
+      src = 0
+      match src_mov_inst:
+        case 'ACC':
+          src = self.modules[origin].get_acc()
+        case _:
+          src = src_mov_inst
+      self.mem_stacks[destination].set_a_value(src)
+
+  def __send_value_to_module(self, origin: str, destination: str):
     inp_dest = self.modules[destination].get_inp(origin)
     if inp_dest == None:
       mov_ints_origin = self.modules[origin].get_current_instruction()
@@ -76,7 +96,11 @@ class Machine:
         inst_p3 = current_instruction[2]
         module_dest = self.types.get(inst_p3)
         if module_dest != None:
-          self.send_value_to_module(key, inst_p3)
+          match module_dest:
+            case 'MODULE':
+              self.__send_value_to_module(key, inst_p3)
+            case 'MEM':
+              self.__send_value_to_mem_stack(key, inst_p3)
       self.modules[key].execute_instruction()
 
   def next_tick(self):

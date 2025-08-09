@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'ACC ADD END_INST EQUALS HALT IN IN_USER JEZ JGZ JLZ JMP JNZ LABEL MEM MODULE MOD_BEGIN MOD_END MOV NAME NAME_ALT NEG NUMBER OUT OUT_SCREEN SAV STRING SUB SWPsentence : LABELsentence : SWP END_INSTsentence : SAV END_INSTsentence : SUB NUMBER END_INSTsentence : SUB ACC END_INSTsentence : SUB NAME END_INSTsentence : ADD NUMBER END_INSTsentence : ADD ACC END_INSTsentence : ADD NAME END_INSTsentence : MOV ACC NAME END_INSTsentence : MOV NUMBER ACC END_INSTsentence : MOV NAME ACC END_INSTsentence : MOV IN_USER ACC END_INSTsentence : MOV ACC OUT END_INSTsentence : MOV ACC OUT_SCREEN END_INSTsentence : JNZ NAME END_INSTsentence : JEZ NAME END_INSTsentence : JMP NAME END_INSTsentence : MODULE NAME MOD_BEGINsentence : MOD_ENDsentence : STRING NAME EQUALS NAME_ALT END_INSTsentence : HALT END_INSTsentence : '
+_lr_signature = 'ACC ADD END_INST EQUALS HALT IN_USER JEZ JGZ JLZ JMP JNZ LABEL MEM MODULE MOD_BEGIN MOD_END MOV NAME NAME_ALT NEG NUMBER OUT_SCREEN SAV STRING SUB SWPsentence : LABELsentence : SWP END_INSTsentence : SAV END_INSTsentence : SUB NUMBER END_INSTsentence : SUB ACC END_INSTsentence : SUB NAME END_INSTsentence : ADD NUMBER END_INSTsentence : ADD ACC END_INSTsentence : ADD NAME END_INSTsentence : MOV ACC NAME END_INSTsentence : MOV NUMBER ACC END_INSTsentence : MOV NAME ACC END_INSTsentence : MOV IN_USER ACC END_INSTsentence : MOV ACC OUT_SCREEN END_INSTsentence : JNZ NAME END_INSTsentence : JEZ NAME END_INSTsentence : JMP NAME END_INSTsentence : MODULE NAME MOD_BEGINsentence : MOD_ENDsentence : STRING NAME EQUALS NAME_ALT END_INSTsentence : HALT END_INSTsentence : '
     
-_lr_action_items = {'LABEL':([0,],[2,]),'SWP':([0,],[3,]),'SAV':([0,],[4,]),'SUB':([0,],[5,]),'ADD':([0,],[6,]),'MOV':([0,],[7,]),'JNZ':([0,],[8,]),'JEZ':([0,],[9,]),'JMP':([0,],[10,]),'MODULE':([0,],[11,]),'MOD_END':([0,],[12,]),'STRING':([0,],[13,]),'HALT':([0,],[14,]),'$end':([0,1,2,12,15,16,32,33,34,35,36,37,38,45,46,47,48,50,51,52,53,54,55,57,],[-23,0,-1,-20,-2,-3,-22,-4,-5,-6,-7,-8,-9,-16,-17,-18,-19,-10,-14,-15,-12,-11,-13,-21,]),'END_INST':([3,4,14,17,18,19,20,21,22,27,28,29,39,40,41,42,43,44,56,],[15,16,32,33,34,35,36,37,38,45,46,47,50,51,52,53,54,55,57,]),'NUMBER':([5,6,7,],[17,20,25,]),'ACC':([5,6,7,24,25,26,],[18,21,23,42,43,44,]),'NAME':([5,6,7,8,9,10,11,13,23,],[19,22,24,27,28,29,30,31,39,]),'IN_USER':([7,],[26,]),'OUT':([23,],[40,]),'OUT_SCREEN':([23,],[41,]),'MOD_BEGIN':([30,],[48,]),'EQUALS':([31,],[49,]),'NAME_ALT':([49,],[56,]),}
+_lr_action_items = {'LABEL':([0,],[2,]),'SWP':([0,],[3,]),'SAV':([0,],[4,]),'SUB':([0,],[5,]),'ADD':([0,],[6,]),'MOV':([0,],[7,]),'JNZ':([0,],[8,]),'JEZ':([0,],[9,]),'JMP':([0,],[10,]),'MODULE':([0,],[11,]),'MOD_END':([0,],[12,]),'STRING':([0,],[13,]),'HALT':([0,],[14,]),'$end':([0,1,2,12,15,16,32,33,34,35,36,37,38,44,45,46,47,49,50,51,52,53,55,],[-22,0,-1,-19,-2,-3,-21,-4,-5,-6,-7,-8,-9,-15,-16,-17,-18,-10,-14,-12,-11,-13,-20,]),'END_INST':([3,4,14,17,18,19,20,21,22,27,28,29,39,40,41,42,43,54,],[15,16,32,33,34,35,36,37,38,44,45,46,49,50,51,52,53,55,]),'NUMBER':([5,6,7,],[17,20,25,]),'ACC':([5,6,7,24,25,26,],[18,21,23,41,42,43,]),'NAME':([5,6,7,8,9,10,11,13,23,],[19,22,24,27,28,29,30,31,39,]),'IN_USER':([7,],[26,]),'OUT_SCREEN':([23,],[40,]),'MOD_BEGIN':([30,],[47,]),'EQUALS':([31,],[48,]),'NAME_ALT':([48,],[54,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -40,14 +40,13 @@ _lr_productions = [
   ('sentence -> MOV NUMBER ACC END_INST','sentence',4,'p_inst_mov_num_acc','parser.py',47),
   ('sentence -> MOV NAME ACC END_INST','sentence',4,'p_inst_mov_in_acc','parser.py',51),
   ('sentence -> MOV IN_USER ACC END_INST','sentence',4,'p_inst_mov_inu_acc','parser.py',55),
-  ('sentence -> MOV ACC OUT END_INST','sentence',4,'p_inst_mov_acc_out','parser.py',59),
-  ('sentence -> MOV ACC OUT_SCREEN END_INST','sentence',4,'p_inst_mov_acc_outp','parser.py',63),
-  ('sentence -> JNZ NAME END_INST','sentence',3,'p_inst_jnz','parser.py',67),
-  ('sentence -> JEZ NAME END_INST','sentence',3,'p_inst_jez','parser.py',71),
-  ('sentence -> JMP NAME END_INST','sentence',3,'p_inst_jmp','parser.py',75),
-  ('sentence -> MODULE NAME MOD_BEGIN','sentence',3,'p_new_module','parser.py',79),
-  ('sentence -> MOD_END','sentence',1,'p_end_module','parser.py',89),
-  ('sentence -> STRING NAME EQUALS NAME_ALT END_INST','sentence',5,'p_string_declaration','parser.py',95),
-  ('sentence -> HALT END_INST','sentence',2,'p_halt','parser.py',99),
-  ('sentence -> <empty>','sentence',0,'p_vacio','parser.py',103),
+  ('sentence -> MOV ACC OUT_SCREEN END_INST','sentence',4,'p_inst_mov_acc_outp','parser.py',59),
+  ('sentence -> JNZ NAME END_INST','sentence',3,'p_inst_jnz','parser.py',63),
+  ('sentence -> JEZ NAME END_INST','sentence',3,'p_inst_jez','parser.py',67),
+  ('sentence -> JMP NAME END_INST','sentence',3,'p_inst_jmp','parser.py',71),
+  ('sentence -> MODULE NAME MOD_BEGIN','sentence',3,'p_new_module','parser.py',75),
+  ('sentence -> MOD_END','sentence',1,'p_end_module','parser.py',85),
+  ('sentence -> STRING NAME EQUALS NAME_ALT END_INST','sentence',5,'p_string_declaration','parser.py',91),
+  ('sentence -> HALT END_INST','sentence',2,'p_halt','parser.py',95),
+  ('sentence -> <empty>','sentence',0,'p_vacio','parser.py',99),
 ]

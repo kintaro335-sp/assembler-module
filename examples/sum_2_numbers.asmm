@@ -1,7 +1,7 @@
 
 MODULE main {
   MOV INU ACC;
-  ADD IN;
+  ADD aux;
   MOV ACC OUTP;
   HALT;
 }

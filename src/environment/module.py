@@ -1,4 +1,5 @@
 import os
+from utils.eval import eval_value
 from copy import copy
 
 class MODULE_CORE:
@@ -80,15 +81,18 @@ class MODULE_CONTROLLER(MODULE_CORE):
         src = self.__input()
       case 'ACC':
         src = self.acc
-      case r'[a-z_]+':
-        src = self.get_inp(inst_p2)
-        if src == None:
-          self.next_inst = False
-          return
-        else:
-          src = self.retrieve_inp(inst_p2)
       case _:
-        src = inst_p2
+        type_value = eval_value(inst_p2)
+        match type_value:
+          case 'NAME':
+            src = self.get_inp(inst_p2)
+            if src == None:
+              self.next_inst = False
+              return
+            else:
+              src = self.retrieve_inp(inst_p2)
+          case 'NUMBER':
+            src = inst_p2
     
     match inst_p3:
       case 'OUT':
@@ -107,13 +111,17 @@ class MODULE_CONTROLLER(MODULE_CORE):
     match inst_p2:
       case 'ACC':
         self.add(self.acc)
-      case r'[a-z_]+':
-        if self.get_inp() != None:
-          self.add(self.retrieve_inp(inst_p2))
-        else:
-          self.pause()
       case _:
-        self.add(int(inst_p2))
+        type_value = eval_value(inst_p2)
+        match type_value:
+          case 'NAME':
+            print(f'inst {inst_p2}')
+            if self.get_inp(inst_p2) != None:
+              self.add(self.retrieve_inp(inst_p2))
+            else:
+              self.pause()
+          case 'NUMBER':
+            self.add(int(inst_p2))
 
   def __sub_instruction(self, instruction: tuple):
     inst_p2 = instruction[1]
@@ -121,13 +129,16 @@ class MODULE_CONTROLLER(MODULE_CORE):
     match inst_p2:
       case 'ACC':
         self.sub(self.acc)
-      case r'[a-z_]+':
-        if self.get_inp() != None:
-          self.add(self.retrieve_inp(inst_p2))
-        else:
-          self.pause()
       case _:
-        self.sub(int(inst_p2))
+        type_value = eval_value(inst_p2)
+        match type_value:
+          case 'NAME':
+            if self.get_inp() != None:
+              self.add(self.retrieve_inp(inst_p2))
+            else:
+              self.pause()
+          case 'NUMBER':
+            self.sub(int(inst_p2))
 
   def __jez_instruction(self, inst: tuple):
     inst_p2 = inst[1]

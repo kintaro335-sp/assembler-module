@@ -59,7 +59,11 @@ class Machine:
           src = self.modules[origin].get_acc()
         case _:
           src = src_mov_inst
-      self.modules[destination].set_inp(origin, src)
+      inserted = self.modules[destination].set_inp(origin, src)
+      if not inserted:
+        # No se que agregar aqui
+        pass
+        # self.modules[origin].pause()
     else:
       self.modules[origin].pause()
     

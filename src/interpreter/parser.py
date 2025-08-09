@@ -24,8 +24,8 @@ def p_inst_sub_acc(p):
   p[0] = ('SUB', 'ACC')
 
 def p_inst_sub_in(p):
-  'sentence : SUB IN END_INST'
-  p[0] = ('SUB', 'IN')
+  'sentence : SUB NAME END_INST'
+  p[0] = ('SUB', p[2])
 
 def p_inst_add_num(p):
   'sentence : ADD NUMBER END_INST'
@@ -36,8 +36,8 @@ def p_inst_add_acc(p):
   p[0] = ('ADD', 'ACC')
 
 def p_inst_add_in(p):
-  'sentence : ADD IN END_INST'
-  p[0] = ('ADD', 'IN')
+  'sentence : ADD NAME END_INST'
+  p[0] = ('ADD', p[2])
 
 def p_inst_mov_acc_name(p):
   'sentence : MOV ACC NAME END_INST'

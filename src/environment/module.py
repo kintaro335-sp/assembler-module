@@ -203,3 +203,10 @@ class MODULE_CONTROLLER(MODULE_CORE):
       case 'HALT':
         os._exit(0)
 
+  def get_state(self):
+    return {
+      'instructions': self.instructions,
+      'step': self.step,
+      'acc': self.acc,
+      'bak': self.bak
+    }

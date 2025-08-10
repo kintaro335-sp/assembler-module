@@ -66,7 +66,7 @@ class Machine:
           src = self.modules[origin].get_acc()
         case _:
           src = src_mov_inst
-      self.mem_stacks[destination].set_a_value(src)
+      self.mem_stacks[destination].send_a_value(src)
 
   def __send_value_to_module(self, origin: str, destination: str):
     inp_dest = self.modules[destination].get_inp(origin)
@@ -86,21 +86,42 @@ class Machine:
         # self.modules[origin].pause()
     else:
       self.modules[origin].pause()
-    
+
+  def __retrive_from_mem_stack(self, origin: str, destination: str):
+    num_retrieved = self.mem_stacks[origin].get_a_value()
+    if num_retrieved != None:
+      inserted = self.modules[destination].set_inp(origin, num_retrieved)
+  
   def execute_instructions(self):
     modules_keys = self.modules.keys()
     for key in modules_keys:
       current_instruction = self.modules[key].get_current_instruction()
       inst_p1 = current_instruction[0]
-      if inst_p1 == 'MOV':
-        inst_p3 = current_instruction[2]
-        module_dest = self.types.get(inst_p3)
-        if module_dest != None:
-          match module_dest:
-            case 'MODULE':
-              self.__send_value_to_module(key, inst_p3)
-            case 'MEM':
-              self.__send_value_to_mem_stack(key, inst_p3)
+      match inst_p1:
+        case 'MOV':
+          inst_p2 = current_instruction[1]
+          type_origin = self.types.get(inst_p2)
+          inst_p3 = current_instruction[2]
+          module_dest = self.types.get(inst_p3)
+          if type_origin == 'MODULE' or inst_p2 == 'ACC':
+            match module_dest:
+              case 'MODULE':
+                self.__send_value_to_module(key, inst_p3)
+              case 'MEM':
+                self.__send_value_to_mem_stack(key, inst_p3)
+          elif type_origin == 'MEM':
+            self.__retrive_from_mem_stack(inst_p2, key)
+        case 'ADD':
+          inst_p2 = current_instruction[1]
+          type_origin = self.types.get(inst_p2)
+          if type_origin == 'MEM':
+            self.__retrive_from_mem_stack(inst_p2, key)
+        case 'SUB':
+          inst_p2 = current_instruction[1]
+          type_origin = self.types.get(inst_p2)
+          if type_origin == 'MEM':
+            self.__retrive_from_mem_stack(inst_p2, key)
+          
       self.modules[key].execute_instruction()
 
   def next_tick(self):

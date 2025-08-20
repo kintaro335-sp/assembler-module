@@ -10,3 +10,8 @@ class MEM_STACK():
 
   def send_a_value(self, new_value:int) -> None:
     self.mem.append(new_value)
+
+  def get_state(self) -> dict:
+    return {
+      'mem': self.mem 
+    }

@@ -3,6 +3,7 @@ from utils.arguments import get_arguments
 from utils.files_utils import read_file
 from interpreter.parser import parser
 from environment import Machine
+from ply import yacc
 import time
 
 machine = Machine()
@@ -26,7 +27,11 @@ def declare():
 def get_instructions(content: list[str]):
   global instructions
   for i in range(0, len(content)):
-    result = parser.parse(content[i])
+    try:
+      result = parser.parse(content[i])
+    except yacc.GrammarError:
+      print('Grammar error')
+      os._exit(1)
     if (result != None):
       instructions.append(result)
 

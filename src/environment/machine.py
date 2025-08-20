@@ -11,6 +11,7 @@ class Machine:
   types: dict[str, Literal['MODULE', 'MEM']]
   strings: dict[str, str] = {}
   ticks: int = 0
+  cycle_executed = False
 
   def __init__(self, instructions:list[Tuple] = []):
     self.instructions = instructions
@@ -19,6 +20,7 @@ class Machine:
     self.mem_stacks = {}
     self.modules = {}
     self.types = {}
+    self.cycle_executed = False
     self.__initialize()
 
   def __initialize_module(self, name: str, start_module: int, end_module: int):
@@ -93,6 +95,8 @@ class Machine:
       inserted = self.modules[destination].set_inp(origin, num_retrieved)
   
   def execute_instructions(self):
+    if self.cycle_executed:
+      return
     modules_keys = self.modules.keys()
     for key in modules_keys:
       current_instruction = self.modules[key].get_current_instruction()
@@ -123,10 +127,33 @@ class Machine:
             self.__retrive_from_mem_stack(inst_p2, key)
           
       self.modules[key].execute_instruction()
+    self.cycle_executed = True
 
   def next_tick(self):
+    if not self.cycle_executed:
+      return
     self.ticks += 1
     modules_keys = self.modules.keys()
     for key in modules_keys:
       self.modules[key].next_instruction()
+    self.cycle_executed = False
 
+  def get_state(self) -> dict:
+    state = {
+      'tick': self.ticks,
+    }
+    # modules state
+    modules_state = {}
+    modules_keys = self.modules.keys()
+    for mod_key in modules_keys:
+      modules_state[mod_key] = self.modules[mod_key].get_state()
+    state['modules'] = modules_state
+
+    # memory stacks
+    mem_stacks_state = {}
+    mem_stacks_keys = self.mem_stacks.keys()
+    for mem_key in mem_stacks_keys:
+      mem_stacks_state[mem_key] = self.mem_stacks[mem_key].get_state()
+    state['mem_stacks'] = mem_stacks_state
+
+    return state

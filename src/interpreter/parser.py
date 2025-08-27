@@ -92,6 +92,10 @@ def p_string_declaration(p):
   'sentence : STRING NAME EQUALS NAME_ALT END_INST'
   p[0] = ("STRING",p[2], p[4])
 
+def p_print_string(p):
+  'sentence : PRINT NAME END_INST'
+  p[0] = ('PRINT', p[2])
+
 def p_mem_stack(p):
   'sentence : MEM NAME END_INST'
   p[0] = ('MEM', p[2])

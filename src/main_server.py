@@ -10,7 +10,9 @@ public_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), "public")
 
 app.mount("/", StaticFiles(directory=public_path, html=True), name='static')
 
-lang_router = APIRouter(prefix="lang")
+lang_router = APIRouter(prefix="/lang")
+
+
 
 app.include_router(lang_router)
 

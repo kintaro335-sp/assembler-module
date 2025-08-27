@@ -28,7 +28,8 @@ tokens = (
   'NAME_ALT',
   'EQUALS',
   'END_INST',
-  'HALT'
+  'HALT',
+  'PRINT'
 )
 
 t_EQUALS = r'='
@@ -40,6 +41,8 @@ t_IN_USER = r'INU'
 t_ignore = ' \t'
 
 t_HALT = r'HALT'
+
+t_PRINT = r'PRINT'
 
 def t_NAME_ALT(t):
   r'"[a-zA-Z0-9_\s]+"'

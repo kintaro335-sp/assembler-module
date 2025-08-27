@@ -125,6 +125,9 @@ class Machine:
       current_instruction = self.modules[key].get_current_instruction()
       inst_p1 = current_instruction[0]
       match inst_p1:
+        case 'PRINT':
+          string = self.strings.get(current_instruction[1])
+          print(string)
         case 'MOV':
           inst_p2 = current_instruction[1]
           type_origin = self.types.get(inst_p2)

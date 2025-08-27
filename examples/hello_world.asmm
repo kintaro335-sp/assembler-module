@@ -1,0 +1,7 @@
+
+STRING hello = "hello world";
+
+MODULE main {
+    PRINT hello;
+    HALT;
+}

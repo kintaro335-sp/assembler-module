@@ -1,4 +1,5 @@
 import os
+from typing import Literal
 from utils.eval import eval_value
 from copy import copy
 
@@ -48,12 +49,18 @@ class MODULE_CORE:
     self.bak = aux
 
 class MODULE_CONTROLLER(MODULE_CORE):
-  def __init__(self, instructions = []):
+  mode: Literal['DEAULT', 'WEB']
+  instructions: list[tuple]
+  step: int
+  labels: dict
+  input_ext: int | None
+  def __init__(self, instructions: list[tuple] = [], mode:Literal['DEFAULT', 'WEB'] = 'DEFAULT'):
     super().__init__()
     self.instructions = instructions
     self.step = 0
     self.labels = {}
-
+    self.inputs = {}
+    self.mode = mode
     for i in range(0, len(self.instructions)):
       if self.instructions[i][0] == 'LABEL':
         self.labels[self.instructions[i][1]] = i
@@ -67,6 +74,15 @@ class MODULE_CONTROLLER(MODULE_CORE):
     self.step += 1
     if self.step > len(self.instructions) - 1:
       self.step = 0
+
+  def set_input_ext(self, new_val: int):
+    self.input_ext = new_val
+
+  def required_input(self) -> bool:
+    inst = self.get_current_instruction()
+    if inst[0] == 'MOV':
+      return inst[1] == 'INU'
+    return False
 
   def pause(self):
     self.next_inst = False
@@ -165,6 +181,10 @@ class MODULE_CONTROLLER(MODULE_CORE):
     self.step = self.labels[f"{inst_p2}:"]
 
   def __input(self) -> int:
+    if self.mode == 'WEB':
+      input = copy(self.input_ext)
+      self.input_ext = None
+      return input
     while (True):
       try:
         return int(input('input:'))

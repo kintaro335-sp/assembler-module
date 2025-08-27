@@ -6,6 +6,7 @@ from .mem_stack import MEM_STACK
 
 
 class Machine:
+  mode: Literal['DEFAULT', 'WEB']
   modules: dict[str, MODULE_CONTROLLER] = {}
   mem_stacks: dict[str, MEM_STACK] = {}
   types: dict[str, Literal['MODULE', 'MEM']]
@@ -13,7 +14,7 @@ class Machine:
   ticks: int = 0
   cycle_executed = False
 
-  def __init__(self, instructions:list[Tuple] = []):
+  def __init__(self, instructions:list[Tuple] = [], mode: Literal['DEFAULT', 'WEB'] = 'DEFAULT'):
     self.instructions = instructions
     self.ticks = 0
     self.strings = {}
@@ -21,6 +22,7 @@ class Machine:
     self.modules = {}
     self.types = {}
     self.cycle_executed = False
+    self.mode = mode
     self.__initialize()
 
   def __initialize_module(self, name: str, start_module: int, end_module: int):
@@ -29,7 +31,7 @@ class Machine:
     while i <= end_module:
       instrections_module.append(self.instructions[i])
       i += 1
-    self.modules[name] = MODULE_CONTROLLER(instrections_module)
+    self.modules[name] = MODULE_CONTROLLER(instrections_module, self.mode)
 
   def __define_type(self, name: str, type_e: Literal['MODULE', 'MEM']):
     type_name = self.types.get(name)
@@ -94,6 +96,27 @@ class Machine:
     if num_retrieved != None:
       inserted = self.modules[destination].set_inp(origin, num_retrieved)
   
+  def set_input(self, new_input:int):
+    modules_keys = self.modules.keys()
+    for mod_key in modules_keys:
+      if self.modules[mod_key].required_input():
+        self.modules[mod_key].set_input_ext(new_input)
+
+  def set_input_to_module(self, module: str, new_input: int):
+    module = self.modules.get(module)
+    if module != None:
+      self.modules[module].set_input_ext(new_input)
+
+  def get_required_inputs(self) -> list[str]:
+    module_list = []
+    modules_keys = self.modules.keys()
+
+    for mod_key in modules_keys:
+      if self.modules[mod_key].required_input():
+        module_list.append(mod_key)
+
+    return module_list
+
   def execute_instructions(self):
     if self.cycle_executed:
       return

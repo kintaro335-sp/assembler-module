@@ -1,6 +1,5 @@
-src/utils/__pycache__
-src/interpreter/__pycache__
-src/environment/__pycache__
 src/interpreter/parser.out
+
+__pycache__
 
 .venv

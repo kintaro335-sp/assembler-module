@@ -1,20 +1,39 @@
 import uvicorn
 import os
-from fastapi import FastAPI
+from fastapi import FastAPI, Body
 from fastapi.routing import APIRouter
 from fastapi.staticfiles import StaticFiles
+# machine
+from interpreter.parser import parser
+from environment import Machine
 
+# interpreter
+
+machine = Machine(mode='WEB')
+
+# fastapi
 app = FastAPI()
 
 public_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), "public")
 
-app.mount("/", StaticFiles(directory=public_path, html=True), name='static')
-
 lang_router = APIRouter(prefix="/lang")
 
+@lang_router.post('/compile')
+def compile(body: str = Body(media_type='text/plain')):
+    global machine
+    instructions = []
+    code_lines = body.split('\n')
+    for code_line in code_lines:
+        result = parser.parse(code_line)
+        if result != None:
+            instructions.append(result)
+    machine = Machine(instructions, mode='WEB')
 
+    return { 'message': 'ok' }
 
 app.include_router(lang_router)
+
+app.mount("/", StaticFiles(directory=public_path, html=True), name='static')
 
 def run_server():
     uvicorn.run(app=app, host="0.0.0.0", port=5050)

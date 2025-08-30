@@ -166,6 +166,7 @@ class Machine:
 
   def get_state(self) -> dict:
     state = {
+      'executed': self.cycle_executed,
       'tick': self.ticks,
     }
     # modules state

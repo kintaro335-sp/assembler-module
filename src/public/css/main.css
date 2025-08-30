@@ -1,0 +1,30 @@
+
+body {
+  background-color: #202020;
+  color: #aaaaaa;
+}
+
+#control-panel > button {
+  background-color: #202020;
+  color: #aaaaaa;
+  font-size: 1em;
+  border: 2px #aaaaaa;
+  border-style: double;
+  padding: 4px;
+  border-radius: 0px;
+  margin: 3px;
+}
+
+
+
+#code {
+  background-color: #202020;
+  color: #aaaaaa;
+  border: 2px #aaaaaa;
+  border-style: double;
+  padding: 4px;
+  border-radius: 0px;
+  margin: 3px;
+  width: 20vw;
+  height: 300px;
+}

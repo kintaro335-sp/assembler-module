@@ -1,6 +1,6 @@
 import uvicorn
 import os
-from fastapi import FastAPI, Body
+from fastapi import FastAPI, Body, Query
 from fastapi.routing import APIRouter
 from fastapi.staticfiles import StaticFiles
 # machine
@@ -29,6 +29,29 @@ def compile(body: str = Body(media_type='text/plain')):
             instructions.append(result)
     machine = Machine(instructions, mode='WEB')
 
+    return { 'message': 'ok' }
+
+@lang_router.post('/execute')
+def execute():
+    global machine
+    machine.execute_instructions()
+    return { 'message': 'ok' }
+
+@lang_router.post('/next')
+def next():
+    global machine
+    machine.next_tick()
+    return { 'message': 'ok' }
+
+@lang_router.get('/state')
+def state():
+    global machine
+    return machine.get_state()
+
+@lang_router.post('/set_input')
+def set_input(module: str = Query(alias='module', regex='[a-z_]+'), value: int = Query(alias='value', regex='[0-9]+')):
+    global machine
+    machine.set_input_to_module(module, int(value))
     return { 'message': 'ok' }
 
 app.include_router(lang_router)

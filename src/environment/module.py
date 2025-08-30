@@ -81,7 +81,7 @@ class MODULE_CONTROLLER(MODULE_CORE):
   def required_input(self) -> bool:
     inst = self.get_current_instruction()
     if inst[0] == 'MOV':
-      return inst[1] == 'INU'
+      return inst[1] == 'INU' and self.input_ext == None
     return False
 
   def pause(self):

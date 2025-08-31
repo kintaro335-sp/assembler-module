@@ -1,4 +1,3 @@
-import os
 import ply.yacc as yacc
 from interpreter.lexer_asmm import tokens
 
@@ -111,12 +110,12 @@ def p_vacio(p):
 def p_error(p):
   if p == None:
     print('compilation error')
-    os._exit(1)
+    raise yacc.GrammarError()
   print(p)
   print("Syntax error in line: %s" % p.lineno)
   print("token %s" % p.type)
   print("value "+ p.value)
-  os._exit(1)
+  raise yacc.GrammarError()
 
 
 

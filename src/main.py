@@ -29,7 +29,8 @@ def get_instructions(content: list[str]):
   for i in range(0, len(content)):
     try:
       result = parser.parse(content[i])
-    except yacc.GrammarError:
+    except yacc.GrammarError as ge:
+      print(ge)
       print('Grammar error')
       os._exit(1)
     if (result != None):

@@ -182,9 +182,9 @@ class MODULE_CONTROLLER(MODULE_CORE):
 
   def __input(self) -> int:
     if self.mode == 'WEB':
-      input = copy(self.input_ext)
+      input_num = copy(self.input_ext)
       self.input_ext = None
-      return input
+      return input_num
     while (True):
       try:
         return int(input('input:'))
@@ -228,5 +228,6 @@ class MODULE_CONTROLLER(MODULE_CORE):
       'instructions': self.instructions,
       'step': self.step,
       'acc': self.acc,
-      'bak': self.bak
+      'bak': self.bak,
+      'req_input': self.required_input()
     }

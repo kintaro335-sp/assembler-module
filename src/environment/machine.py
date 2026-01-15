@@ -118,6 +118,9 @@ class Machine:
     return module_list
 
   def execute_instructions(self):
+    if self.mode == "WEB":
+      if len(self.get_required_inputs()) > 0:
+        return
     if self.cycle_executed:
       return
     modules_keys = self.modules.keys()

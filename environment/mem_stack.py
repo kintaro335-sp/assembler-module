@@ -1,4 +1,6 @@
 class MEM_STACK():
+  mem: list[str]
+
   def __init__(self) -> None:
     self.mem = []
 

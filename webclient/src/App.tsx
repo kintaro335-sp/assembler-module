@@ -1,4 +1,6 @@
 
+import './styles/base.css'
+
 function App() {
 
   return (

@@ -15,7 +15,7 @@ machine = Machine(mode='WEB')
 # fastapi
 app = FastAPI()
 
-public_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), "public")
+public_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), "webclient", "dist")
 
 lang_router = APIRouter(prefix="/lang")
 
@@ -53,7 +53,7 @@ def state():
   return machine.get_state()
 
 @lang_router.post('/set_input')
-def set_input(module: str = Query(alias='module', regex='[a-z_]+'), value: int = Query(alias='value', regex='[0-9]+')):
+def set_input(module: str = Query(alias='module', pattern='[a-z_]+'), value: int = Query(alias='value')):
   global machine
   machine.set_input_to_module(module, int(value))
   return { 'message': 'ok' }
